@@ -16,8 +16,17 @@
 //MODEL end
 
 //larry
+    // var current_cat = cat1;
     var cats = [cat1, cat2, cat3, cat4, cat5, cat6];
+    function setCurrentCat(cat) {
+        currentCat = cat;
+    };
+
+
     render_cats();
+
+
+
 
 //larry end
 //
@@ -39,8 +48,37 @@
      image.setAttribute("src", "foto/"+cats[i].url);
      image.setAttribute("height", "120px");
      newCell1.appendChild(image);
+
+     var cat=cats[i];
+     console.log(cat);
+     //do not work show render current cat immidiately
+ //     newCell1.addEventListener('click', (function(cat) {
+ //     setCurrentCat(cat);
+ //     render_current_cat();
+ //     console.log(cat);
+ // })(cat));
+ //mistery of this app :-) do not understand hoe that work!!!
+     newCell1.addEventListener('click', (function(catCopy) {
+         return function() {
+             setCurrentCat(catCopy);
+             render_current_cat();
+             console.log(newCell1);
+             console.log(catCopy);
+         };
+     })(cat));
         }//for
     }//render_cats
+
+    function render_current_cat() {
+    var bestCat = document.getElementById('bestCat');
+    bestCat.innerHTML = "";
+    var cat_name =  document.createElement('h2');
+    cat_name.textContent = currentCat.name;
+    image = document.createElement('img');
+    image.setAttribute("src", "foto/"+currentCat.url);
+    bestCat.appendChild(cat_name);
+    bestCat.appendChild(image);
+    }
 //VIEW end
 
 
