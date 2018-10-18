@@ -33,6 +33,22 @@
         });
 
     render_cats();
+    init();
+
+    function init(){
+        var form = document.getElementById('invisible');
+        form.style.display="none";
+
+        var admin = document.getElementById('admin');
+        var save = document.getElementById('save');
+        admin.addEventListener('click', function(){
+            form.style.display="block";
+        });//eventListener
+        save.addEventListener('click', function(){
+
+        });//eventListener
+
+    }
 //larry end
 //
 //view
