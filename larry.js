@@ -25,6 +25,12 @@
         cat.click++;
         console.log('rysa');
     };
+//can not be in render_current_cat happen tomany times, huge problem with counting
+    var bestCat = document.getElementById('bestCat');
+    bestCat.addEventListener('click', function(){
+        count_click(currentCat);
+        render_click(currentCat);
+        });
 
     render_cats();
 //larry end
@@ -70,12 +76,12 @@
     bestCat.appendChild(image);
     render_click(currentCat);
 
-    bestCat.addEventListener('click', function(){
-        count_click(currentCat);
-        render_click(currentCat);
-        console.log(currentCat);
-        console.log('basia');
-    });
+    // bestCat.addEventListener('click', function(){
+    //     count_click(currentCat);
+    //     render_click(currentCat);
+    //     console.log(currentCat);
+    //     console.log('basia');
+    //});
 
 
 }//render_current_cat
