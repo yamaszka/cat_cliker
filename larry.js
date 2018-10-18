@@ -16,18 +16,17 @@
 //MODEL end
 
 //larry
-    // var current_cat = cat1;
     var cats = [cat1, cat2, cat3, cat4, cat5, cat6];
     function setCurrentCat(cat) {
         currentCat = cat;
     };
 
+    function count_click(cat){
+        cat.click++;
+        console.log('rysa');
+    };
 
     render_cats();
-
-
-
-
 //larry end
 //
 //view
@@ -37,9 +36,9 @@
         for (var i = 0; i < cats.length; i++) {
 
      var table = document.getElementById('table');
-     if (i%2===0) {
-     var newRow = table.insertRow(0);
-    }
+         if (i%2===0) {
+         var newRow = table.insertRow(0);
+            }
      var newCell1 = newRow.insertCell(0);
      var cat_name =  document.createElement('h5');
      cat_name.textContent = cats[i].name;
@@ -50,20 +49,11 @@
      newCell1.appendChild(image);
 
      var cat=cats[i];
-     console.log(cat);
-     //do not work show render current cat immidiately
- //     newCell1.addEventListener('click', (function(cat) {
- //     setCurrentCat(cat);
- //     render_current_cat();
- //     console.log(cat);
- // })(cat));
- //mistery of this app :-) do not understand hoe that work!!!
+
      newCell1.addEventListener('click', (function(catCopy) {
          return function() {
              setCurrentCat(catCopy);
              render_current_cat();
-             console.log(newCell1);
-             console.log(catCopy);
          };
      })(cat));
         }//for
@@ -78,6 +68,21 @@
     image.setAttribute("src", "foto/"+currentCat.url);
     bestCat.appendChild(cat_name);
     bestCat.appendChild(image);
+    render_click(currentCat);
+
+    bestCat.addEventListener('click', function(){
+        count_click(currentCat);
+        render_click(currentCat);
+        console.log(currentCat);
+        console.log('basia');
+    });
+
+
+}//render_current_cat
+
+    function render_click(cat){
+        var number = document.getElementById('number');
+        number.innerHTML = cat.click;
     }
 //VIEW end
 
