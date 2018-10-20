@@ -9,7 +9,7 @@
     //create cats objects
     const cat1 = new Cat('Fredzio', 'cat1.jpg', 'beautiful cat');
     const cat2 = new Cat('Bąbel', 'cat2.jpg', 'cude cat');
-    const cat3 = new Cat('Mruczek', 'cat3.jpg', 'cude cat');
+    const cat3 = new Cat('Mruczek', 'cat7.jpg', 'cude cat');
     const cat4 = new Cat('Murzyn', 'cat4.jpg', 'cude cat');
     const cat5 = new Cat('Franciszek', 'cat5.jpg', 'cude cat');
     const cat6 = new Cat('Kleopatra', 'cat6.jpg', 'cude cat');
@@ -26,9 +26,26 @@
 
     function count_click(cat){
         cat.click++;
-        console.log('rysa');
     };
-//can not be in render_current_cat happen tomany times, huge problem with counting
+//admin panel clicking save button
+    function data(){
+        var name = document.getElementById("name").value;
+        var url = document.getElementById("url").value;
+        var des = document.getElementById("des").value;
+            if ((name=="")||(url=="")||(des=="")){
+                var message = "<span style='color: red;'>wypełnij wszystkie pola</span>";
+                document.getElementById("message").innerHTML = message;
+                return;
+            }//if
+            //remove red message
+        document.getElementById("message").innerHTML = '';
+        const new_cat = new Cat(name, url, des);
+        cats.push(new_cat);
+        setCurrentCat(new_cat);
+        render_current_cat();
+        render_cats();
+    }
+//can not be in render_current_cat happen too many times, huge problem with counting
     var bestCat = document.getElementById('bestCat');
     bestCat.addEventListener('click', function(){
         count_click(currentCat);
@@ -38,36 +55,16 @@
     render_cats();
     init();
 
-
-    function data(){
-        var name = document.getElementById("name").value;
-        var url = document.getElementById("url").value;
-        var des = document.getElementById("des").value;
-            if ((name=="")||(url=="")||(des=="")){
-                var message = "<span style='color: red;'>wypełnij wszystkie pola</span>";
-                document.getElementById("message").innerHTML = message;
-                //do not check if url exist!!!
-                return;
-            }//if
-            //remove red message
-        document.getElementById("message").innerHTML = '';
-        // var number = cats.length + 1;
-        // var new_cat = `cat${number}`;
-        const new_cat = new Cat(name, url, des);
-        cats.push(new_cat);
-        console.log(new_cat);
-    }
-
 //larry end
 //
 //view
     //render cats
     function render_cats() {
         var elem, image;
-
+        var table = document.getElementById('table');
+//cleaning for update after admin save
+         table.innerHTML = "";
         for (var i = 0; i < cats.length; i++) {
-
-     var table = document.getElementById('table');
          if (i%2===0) {
          var newRow = table.insertRow(0);
             }
@@ -79,9 +76,8 @@
      image.setAttribute("src", "foto/"+cats[i].url);
      image.setAttribute("height", "120px");
      newCell1.appendChild(image);
-
      var cat=cats[i];
-
+//this let sent variable to evet listener??
      newCell1.addEventListener('click', (function(catCopy) {
          return function() {
              setCurrentCat(catCopy);
@@ -99,6 +95,7 @@
     cat_name.textContent = currentCat.name;
     image = document.createElement('img');
     image.setAttribute("src", "foto/"+currentCat.url);
+    image.setAttribute("max-height", "300px");
     bestCat.appendChild(cat_name);
     bestCat.appendChild(image);
     render_click(currentCat);
@@ -110,26 +107,44 @@
     //     console.log(currentCat);
     //     console.log('basia');
     //});
-
-console.log('render_current_cat');
 }//render_current_cat
-    //render click amount
+
+//render click amount
     function render_click(cat){
         var number = document.getElementById('number');
         number.innerHTML = cat.click;
     }
 
-    //init admin part
+//init admin part
     function init(){
         var form = document.getElementById('invisible');
         form.style.display="none";
         var fotos = document.getElementById('files');
-        // fotos.style.display="none";
+        fotos.style.display="none";
+//adding choosing foto panel
+        for (var i = 0; i < files.length; i++) {
+        image = document.createElement('img');
+        image.setAttribute("src", "foto/"+files[i]);
+        image.setAttribute("height", "120px");
+        fotos.appendChild(image);
+        var file = files[i];
+//clik na foto, set value in input file, sending value to event listener
+        image.addEventListener('click', function(e) {
+            return function() {
+                document.body.style.backgroundColor = "rgba(0,0,0,0)";
+                fotos.style.display="none";
+                var url = document.getElementById("url");
+                url.value = e;
+               };
+           }(file));//addevent
+       }//for
+       //display foto panel when focus the urlinput
         var focus = document.getElementById("url");
-        focus.addEventListener('onfocus', function(){
-            //funkcja po wejściu w url input
+        focus.addEventListener('focus', function(){
+            document.body.style.backgroundColor = "rgba(0,0,0,0.8)";
+            fotos.style.display="block";
         });//eventListener
-
+//eventlisteners for admin buttons
         var admin = document.getElementById('admin');
         var save = document.getElementById('save');
         admin.addEventListener('click', function(){
@@ -138,8 +153,8 @@ console.log('render_current_cat');
         });//eventListener
         save.addEventListener('click', function(){
             data();
+            form.style.display="none";
         });//eventListener
-        console.log('init');
     }//init
 
     //add event listener for cancel
@@ -151,41 +166,3 @@ console.log('render_current_cat');
             form.style.display="none";
         });//eventListener
     }
-
-    function display_foto(){
-        var foto = document.getElementById("files");
-        document.body.style.backgroundColor = "rgba(0,0,0,0.8)";
-        console.log(files.length);
-        for (var i = 0; i < files.length; i++) {
-        image = document.createElement('img');
-        image.setAttribute("src", "foto/"+files[i]);
-        image.setAttribute("height", "120px");
-        foto.appendChild(image);
-        var file = files[i];
-        image.addEventListener('click', function() {
-
-            document.body.style.backgroundColor = "rgba(0,0,0,0)";
-            foto.style.display="none";
-            var url = document.getElementById("url");
-            url.value = file;
-            console.log(file);
-        });
-        console.log(files[i]);
-
-
-    }//for
-    }
-
-    display_foto();
-    console.log('cojest?');
-    // newCell1.addEventListener('click', (function(catCopy) {
-    //     return function() {
-    //         setCurrentCat(catCopy);
-    //         render_current_cat();
-    //     };
-    // })(cat));
-    // function url_focus(){
-    //     files.forEach(display_foto);
-    //     });//eventListener
-    // }
-//VIEW end
