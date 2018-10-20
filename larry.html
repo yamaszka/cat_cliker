@@ -27,6 +27,20 @@
         margin: auto;
         /* nie działa??? */
     }
+
+    #files {
+        position: absolute;
+        top: 20px;
+        right:50px;
+        width: 500px;
+        border: 1px solid #131113;
+        background-color: white;
+    }
+
+    #files img {
+        margin: 10px;
+        cursor: pointer;
+    }
     </style>
   </head>
 
@@ -52,13 +66,16 @@
 <div id="column3">
 <button id="admin">ADMIN</button><br>
 <div id="invisible">
-    <form>
+
     Name: <input type="text" id="name"><br>
-    URL: <input type="text" id="url"><br>
+    URL: <input type="text" id="url" value=""><br>
     Description: <input type="text" id="des"><br>
+    <button id="cancel">Cancel</button>
     <button id="save">Save</button>
-    </form>
+
+    <div id="message"></div>
 </div><!-- invisible -->
+    <div id="files"><h2>Wybierz kota</h2></div>
 </div><!-- column3 -->
 </div><!-- content -->
 
